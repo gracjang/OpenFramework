@@ -6,7 +6,7 @@ struct Ball {
 	ofPoint force;
 	int radius;            
 	ofColor color;      
-	 
+	ofPoint areoForce;
 };
 
 
@@ -24,6 +24,7 @@ void ofApp::setup() {
 void ofApp::update() {
 	for (int i = 0; i < NBALLS; i++) {
 		groupOfBalls[i].position = groupOfBalls[i].position + groupOfBalls[i].force;
+		groupOfBalls[i].position += groupOfBalls[i].areoForce;
 		checkPosition(i);
 	}
 
@@ -59,6 +60,7 @@ void ofApp::setBall(int i) {
 	groupOfBalls[i].radius = ofRandom(10, 30);
 	groupOfBalls[i].position.x = ofRandom(0,ofGetWidth() - groupOfBalls[i].radius);
 	groupOfBalls[i].position.y = ofRandom(0, ofGetHeight() - groupOfBalls[i].radius);
+	groupOfBalls[i].areoForce = -6 * PI * groupOfBalls[i].force * groupOfBalls[i].radius * 0.02 * 0.004;
 }
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
