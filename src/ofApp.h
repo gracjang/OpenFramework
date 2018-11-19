@@ -11,6 +11,8 @@ class ofApp : public ofBaseApp{
 
 		void checkPosition(int i);
 
+		void SetAreoDynamicForce(int i);
+
 		void setBall(int i);
 
 		void RepulsionForce(int i, int radius, float scale);

@@ -1,6 +1,7 @@
 #include "ofApp.h"
-#define NBALLS 1450
-//--------------------------------------------------------------
+#define NBALLS 1000  // declarate count of balls, global variable !
+/* Struct of Ball */
+
 struct Ball {
 	ofPoint position;  
 	ofPoint force;
@@ -15,6 +16,7 @@ Ball groupOfBalls[NBALLS];
 //--------------------------------------------------
 void ofApp::setup() {
 	ofSetFrameRate(60);
+	/*Create a balls*/
 	for (int i = 0; i < NBALLS; i++) {
 		setBall(i);
 	}
@@ -25,8 +27,25 @@ void ofApp::update() {
 	for (int i = 0; i < NBALLS; i++) {
 		
 		groupOfBalls[i].position = groupOfBalls[i].position + groupOfBalls[i].force;
-		groupOfBalls[i].position += groupOfBalls[i].areoForce;
 		checkPosition(i);
+
+		/*
+		-------------- BLOCK OF EXERCIES 3 ----------------------
+		
+		SetAreoDynamicForce(i);
+		groupOfBalls[i].position += groupOfBalls[i].areoForce;
+		
+		*/
+
+		/* BLOCK OF EXERCISE 4 (UNComment create black ball in center -> method draw() )
+
+			RepulsionForce(i, 30, 0.4)
+		
+		*/
+			
+
+		
+
 		
 	}
 
@@ -39,11 +58,17 @@ void ofApp::draw() {
 		ofSetColor(groupOfBalls[i].color);
 		ofDrawCircle(groupOfBalls[i].position, groupOfBalls[i].radius);
 	}
-	//ofSetColor(World.color);
-	//ofDrawCircle(World.position, World.radius);
 	
+	/* CREATE BLACK BALL IN CENTER OF WINDOW ( EXERCISE 4 )
+	
+
+	ofSetColor(World.color);
+	ofDrawCircle(World.position, World.radius);
+
+	*/
 }
 
+/* Check if statment for ball and touch a max and min value of screen size */
 void ofApp::checkPosition(int i) {
 	if ((groupOfBalls[i].position.x - groupOfBalls[i].radius) < 0) {
 		groupOfBalls[i].force.x = abs(groupOfBalls[i].force.x);
@@ -60,6 +85,14 @@ void ofApp::checkPosition(int i) {
 		groupOfBalls[i].force.y = -groupOfBalls[i].force.y;
 	}
 }
+
+/* SET AREO DYNAMIC FORCE */
+void ofApp::SetAreoDynamicForce(int i) {
+
+	groupOfBalls[i].areoForce = -6 * PI * groupOfBalls[i].force * groupOfBalls[i].radius * 0.02 * 0.004;
+}
+
+/* Properties of Balls ( everything is random ) - every ball is unique */
 void ofApp::setBall(int i) {
 	groupOfBalls[i].color = ofColor::fromHsb(ofRandom(0, 255), ofRandom(0, 255), ofRandom(0, 255));
 	groupOfBalls[i].force.x = ofRandom(-20, 8);
@@ -67,9 +100,13 @@ void ofApp::setBall(int i) {
 	groupOfBalls[i].radius = ofRandom(3, 18);
 	groupOfBalls[i].position.x = ofRandom(0,ofGetWidth() - groupOfBalls[i].radius);
 	groupOfBalls[i].position.y = ofRandom(0, ofGetHeight() - groupOfBalls[i].radius);
-	groupOfBalls[i].areoForce = -6 * PI * groupOfBalls[i].force * groupOfBalls[i].radius * 0.02 * 0.004;
+	
 }
-/* RepulsionForce to center*/
+
+// --------------------------------------------------------------
+
+
+/* RepulsionForce to center */
 void ofApp::RepulsionForce(int i, int radius, float scale) {
 	ofVec2f mWorld;
 	ofVec2f Object;
